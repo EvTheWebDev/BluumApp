@@ -1,7 +1,9 @@
 import { Button, Text, View } from 'react-native';
+import { useAuth } from '../../context/AuthContext';
 
 export default function ProfileScreen() {
-
+  // Get the signOut function from your authentication context
+  const { signOut } = useAuth();
 
   return (
     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
@@ -10,6 +12,7 @@ export default function ProfileScreen() {
         <Button 
         title="Sign Out Now"
         color="red"
+        onPress={signOut}
       />
     </View>
   );
