@@ -13,7 +13,7 @@ export const AuthProvider = ({children}: {children: ReactNode}) => {
 
     const signIn = () => {
         setIsLoggedIn(true);
-        alert("Welcome!");
+        // alert("Welcome!");
         console.log("User signed in");
     };
     const signOut = () => {

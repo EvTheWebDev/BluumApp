@@ -49,7 +49,7 @@ const { signIn } = useAuth();
       {/* App Logo and Title */}
       <View style={styles(theme).headerContainer}>
         <Image 
-          source={require("../../assets/images/bluumLogo.png")} 
+          source={require("../assets/images/bluumLogo.png")} 
           style={styles(theme).logo} 
           resizeMode="contain"
         />
@@ -75,7 +75,7 @@ const { signIn } = useAuth();
         >
           {/* Lock Icon */}
           <Image
-            source={require("../../assets/icons/lock.png")}
+            source={require("../assets/icons/lock.png")}
             style={{
               width: 25,
               height: 25,
