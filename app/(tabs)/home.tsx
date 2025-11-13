@@ -1,14 +1,15 @@
 import React, { useState } from "react";
 import {
-    Button,
-    Image,
-    ImageBackground,
-    ScrollView,
-    StyleSheet,
-    Text,
-    TouchableOpacity,
-    View,
-    useWindowDimensions,
+  Button,
+  Image,
+  ImageBackground,
+  Platform,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+  useWindowDimensions,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 // Color Vars
@@ -39,10 +40,9 @@ const createStyles = (width: number, height: number) =>
     },
     // Room View
     roomView: {
-    //   flex: 1,
-    width: width,
+      //   flex: 1,
+      width: width,
       height: height * 0.5, // 50% of screen height
-
     },
     wall: {
       flex: 1,
@@ -58,7 +58,7 @@ const createStyles = (width: number, height: number) =>
       width: width * 0.5,
       height: height * 0.25,
       position: "absolute",
-      bottom: height * 0.05, // 5% from bottom
+      bottom: height * 0.1, // 5% from bottom
       resizeMode: "contain",
 
       left: "50%",
@@ -67,7 +67,7 @@ const createStyles = (width: number, height: number) =>
     },
     roomActions: {
       position: "absolute",
-      bottom: height * 0.025, // 2.5% from bottom
+      bottom: height * 0.1, // 2.5% from bottom
       right: width * 0.05, // 5% from right
       flexDirection: "row",
       gap: width * 0.025, // 2.5% of screen width
@@ -80,7 +80,7 @@ const createStyles = (width: number, height: number) =>
     },
 
     infoCards: {
-        backgroundColor: Colors.floor
+      backgroundColor: Colors.floor,
     },
 
     // Info Cards (Shared)
@@ -112,19 +112,54 @@ const createStyles = (width: number, height: number) =>
       height: "100%",
       borderRadius: (width * 0.15) / 2, // Must match avatar's radius
     },
-    userDetails: { flex: 1 },
+    userDetails: {
+      flexDirection: "row",
+      top: 0,
+      justifyContent: "space-between",
+      alignItems: "center",
+      flex: 1,
+    },
     username: {
       color: Colors.font,
       fontWeight: "bold",
-      fontSize: width * 0.045, // 4.5% of screen width
+      fontSize: width * 0.03, // 4.5% of screen width
     },
     currency: {
       flexDirection: "row",
       gap: width * 0.04, // 4% of screen width
+      marginLeft: width * 0.015,
+    },
+    currencyCount: {
+      flexDirection: "row",
+      alignItems: "center",
+      gap: width * 0.015,
+    },
+    gemCount: {
+      backgroundColor: "#27A36A",
+      ...Platform.select({
+      ios: {
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.25,
+        shadowRadius: 3.84,
+      },
+      android: {
+        elevation: 5,
+      },
+      default: {
+        // This will apply to BOTH 'ios' AND 'web'
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.25,
+        shadowRadius: 3.84,
+      },
+    }),
+    padding: 20,
+    borderRadius: 10,
     },
     currencyText: {
       color: Colors.font,
-      fontSize: width * 0.035, // 3.5% of screen width
+      fontSize: width * 0.025, // 3.5% of screen width
     },
     progressBar: {
       width: "100%",
@@ -193,8 +228,8 @@ const createStyles = (width: number, height: number) =>
       justifyContent: "space-evenly",
 
       backgroundColor: "#5A3E9B",
-        borderRadius: 100,
-        paddingVertical: height * 0.01,
+      borderRadius: 100,
+      paddingVertical: height * 0.01,
       width: width * 0.8,
 
       // Shadow (optional, but good)
@@ -211,12 +246,12 @@ const createStyles = (width: number, height: number) =>
       flex: 1,
     },
     navToggleIcon: {
-        resizeMode: "contain",
+      resizeMode: "contain",
     },
     navToggle: {
-        width: width * 0.12,
-        height: width * 0.12,
-        borderRadius: (width * 0.12) / 2, // Makes it a circle
+      width: width * 0.12,
+      height: width * 0.12,
+      borderRadius: (width * 0.12) / 2, // Makes it a circle
     },
     navButtonIcon: {
       // A new style for just the <Image>
@@ -234,7 +269,7 @@ const createStyles = (width: number, height: number) =>
       // No extra styles needed, it just uses navIcon and navButtonIcon
     },
     navIconActive: {
-      // ... (no properties here, but you could add them)
+      //Add Selected / Active styles here 
     },
     activeAvatar: {
       width: "100%",
@@ -246,12 +281,19 @@ const createStyles = (width: number, height: number) =>
     },
   });
 
-const pfpAssets = {
-  dog: require("../assets/icons/rowdyPFP.svg"),
-  axolotl: require("../assets/icons/axolotlPFP.svg"),
+const characterData = {
+  dog: {
+    pfp: require("../assets/icons/rowdyPFP.svg"),
+    character: require("../assets/icons/rowdyCharacter.svg"),
+  },
+  axolotl: {
+    pfp: require("../assets/icons/axolotlPFP.svg"),
+    // You will need to add this 'axolotlCharacter' image to your assets!
+    character: require("../assets/icons/axolotlCharacter.svg"),
+  },
 };
 
-type PfpKey = keyof typeof pfpAssets;
+type characterKey = keyof typeof characterData;
 
 const HomeScreen = () => {
   // Setting Up Styles (Using Viewport Dimensions)
@@ -264,9 +306,12 @@ const HomeScreen = () => {
 
   const styles = createStyles(effectiveWidth, effectiveHeight);
 
-  const [selectedChar, setSelectedChar] = useState<PfpKey>("dog");
+  const [selectedChar, setSelectedChar] = useState<characterKey>("dog");
 
-  const currentPfpImage = pfpAssets[selectedChar];
+  const currentCharData = characterData[selectedChar];
+
+  const currentPfpImage = currentCharData.pfp;
+  const currentCharacterImage = currentCharData.character;
 
   return (
     <SafeAreaView style={styles.bg}>
@@ -274,9 +319,13 @@ const HomeScreen = () => {
         <ScrollView>
           {/* 1. The Room and Character View */}
           <View style={styles.roomView}>
+            <ImageBackground
+              source={require("../assets/images/room.png")}
+              style={{ width: "100%", height: "100%", marginLeft: -2, }}
+            />
             <View style={styles.wall}>
               <View style={styles.roomActions}>
-                <TouchableOpacity style={[styles.iconButton]}>
+                <TouchableOpacity style={styles.iconButton}>
                   <ImageBackground
                     source={require("../assets/icons/closetButton.svg")}
                     style={{ width: "105%", height: "105%", marginLeft: -2 }}
@@ -297,17 +346,17 @@ const HomeScreen = () => {
                 </TouchableOpacity>
               </View>
             </View>
-            <View style={styles.floor} />
 
             {/* Render character last, above floor */}
             <View style={styles.characterPlaceholder} />
+            <ImageBackground></ImageBackground>
             <Image
-              source={require("../assets/icons/rowdyCharacter.svg")}
+              source={currentCharacterImage}
               style={styles.characterPlaceholder}
             />
           </View>
 
-            {/* Character Selector Buttons  (PLACEHOLDER FOR TESTING) */}
+          {/* Character Selector Buttons  (PLACEHOLDER FOR TESTING) */}
           <View
             style={{
               flexDirection: "row",
@@ -327,43 +376,50 @@ const HomeScreen = () => {
             />
           </View>
 
-<View style= {styles.infoCards}> </View>
-          {/* 2. User Stats Card */}
-          <View style={[styles.infoCard, styles.statsCard]}>
-            <View style={styles.profileHeader}>
-              <View style={styles.avatar}>
-                <Image style={styles.avatarImg} source={currentPfpImage} />
-              </View>
-              <View style={styles.userDetails}>
-                <Text style={styles.username}>[Rowdy#7890]</Text>
-                <View style={styles.currency}>
-                  <Text style={styles.currencyText}>⚡ [INSERT USER XP]</Text>
-                  <Text style={styles.currencyText}>
-                    💎 [INSERT USER CURRENCY]
-                  </Text>
+          <View style={styles.infoCards}>
+            {/* 2. User Stats Card */}
+            <View style={[styles.infoCard, styles.statsCard]}>
+              <View style={styles.profileHeader}>
+                <View style={styles.avatar}>
+                  <Image style={styles.avatarImg} source={currentPfpImage} />
+                </View>
+                <View style={styles.userDetails}>
+                  <Text style={styles.username}>[Rowdy#7890]</Text>
+                  <View style={styles.currency}>
+                    <View style={styles.currencyCount}>
+                      <Image source={require("../assets/icons/xpIcon.png")} />
+                      <Text style={styles.currencyText}>[INSERT USER XP]</Text>
+                    </View>
+                    <View style={[styles.currencyCount, styles.gemCount]}>
+                      <Image
+                        source={require("../assets/icons/currencyIcon.png")}
+                      />
+                      <Text style={styles.currencyText}>[1000]</Text>
+                    </View>
+                  </View>
                 </View>
               </View>
+              <View style={styles.progressBar}>
+                <View style={[styles.progressFill, styles.xpFill]} />
+              </View>
+              <View style={styles.progressBar}>
+                <View style={[styles.progressFill, styles.waterFill]} />
+                <TouchableOpacity style={styles.plusIcon}>
+                  <Text style={styles.plusIconText}>+</Text>
+                </TouchableOpacity>
+              </View>
             </View>
-            <View style={styles.progressBar}>
-              <View style={[styles.progressFill, styles.xpFill]} />
-            </View>
-            <View style={styles.progressBar}>
-              <View style={[styles.progressFill, styles.waterFill]} />
-              <TouchableOpacity style={styles.plusIcon}>
-                <Text style={styles.plusIconText}>+</Text>
-              </TouchableOpacity>
-            </View>
-          </View>
 
-          {/* 3. Upcoming Tasks Card */}
-          <View style={[styles.infoCard, styles.tasksCard]}>
-            <Text style={styles.cardTitle}>Upcoming Tasks</Text>
-            <View style={styles.taskItem}>
-              <Text style={styles.taskText}>Placeholder for a task...</Text>
-              <Text style={styles.taskReward}>⚡ 50</Text>
-              <TouchableOpacity style={styles.taskCompleteCheck}>
-                <Text>✓</Text>
-              </TouchableOpacity>
+            {/* 3. Upcoming Tasks Card */}
+            <View style={[styles.infoCard, styles.tasksCard]}>
+              <Text style={styles.cardTitle}>Upcoming Tasks</Text>
+              <View style={styles.taskItem}>
+                <Text style={styles.taskText}>Placeholder for a task...</Text>
+                <Text style={styles.taskReward}>⚡ 50</Text>
+                <TouchableOpacity style={styles.taskCompleteCheck}>
+                  <Text>✓</Text>
+                </TouchableOpacity>
+              </View>
             </View>
           </View>
 
@@ -371,39 +427,6 @@ const HomeScreen = () => {
           <View style={{ height: 100 }} />
         </ScrollView>
       </SafeAreaView>
-      {/* 4. Bottom Navigation Bar */}
-      <View style={styles.bottomNav}>
-        <TouchableOpacity style={[styles.navIcon, styles.navToggle]}>
-          <Image
-            style={[styles.navIcon, styles.navToggleIcon]}
-            source={require("../assets/icons/navigation.svg")}
-          />
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.navIcon}>
-          <Image
-            style={styles.navButtonIcon}
-            source={require("../assets/icons/homeIcon.svg")}
-          />
-          <Text style={styles.navIconText}>Home</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.navIcon}>
-          <Image
-            style={styles.navButtonIcon}
-            source={require("../assets/icons/shopIcon.svg")}
-          />
-          <Text style={styles.navIconText}>Shop</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.navIcon}>
-          <Image
-            style={styles.navButtonIcon}
-            source={require("../assets/icons/tasksIcon.svg")}
-          />
-          <Text style={styles.navIconText}>Tasks</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={[styles.navClose, styles.navIcon]}>
-          <Text style={styles.navIconText}>X</Text>
-        </TouchableOpacity>
-      </View>
     </SafeAreaView>
   );
 };

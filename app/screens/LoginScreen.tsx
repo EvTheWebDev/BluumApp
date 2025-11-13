@@ -10,7 +10,7 @@ import {
   View,
   useColorScheme
 } from "react-native";
-import { COLORS, ColorPalette } from "../../constants/theme";
+import { Colors, ColorPalette } from "../../constants/theme";
 
 // Auth Import
 import { useAuth } from "../../context/AuthContext";
@@ -26,7 +26,7 @@ const LoginScreen = () => {
     systemTheme || "light"
   );
 
-  const theme = COLORS[localTheme];
+  const theme = Colors[localTheme];
 
   const toggleTheme = () => {
     setLocalTheme(localTheme === "light" ? "dark" : "light");
