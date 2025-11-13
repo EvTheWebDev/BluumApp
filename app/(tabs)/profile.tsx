@@ -2,7 +2,7 @@ import { Button, Text, View } from 'react-native';
 import { useAuth } from '../../context/AuthContext';
 
 export default function ProfileScreen() {
-  // Get the signOut function from your authentication context
+  
   const { signOut } = useAuth();
 
   return (

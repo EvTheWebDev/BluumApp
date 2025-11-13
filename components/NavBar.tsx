@@ -1,21 +1,14 @@
+import { BottomTabBarProps } from "@react-navigation/bottom-tabs";
 import React, { useState } from "react";
 import {
-    Dimensions,
-    Image,
-    StyleSheet,
-    Text,
-    TouchableOpacity,
-    View,
+  Dimensions,
+  Image,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
 } from "react-native";
-// This type gives you auto-completion for props!
-import { BottomTabBarProps } from "@react-navigation/bottom-tabs";
 
-// NOTE: I've assumed your file names in (tabs) are:
-// - index.tsx (for Home)
-// - shop.tsx
-// - tasks.tsx
-// If they are different, just change the names in navigation.navigate('...')
-// and in the activeRouteName === '...' checks.
 
 export function Navbar({ state, navigation }: BottomTabBarProps) {
   const [isOpen, setIsOpen] = useState(true);
@@ -31,16 +24,12 @@ export function Navbar({ state, navigation }: BottomTabBarProps) {
           source={require("../app/assets/icons/navigation.svg")}
         />
       </TouchableOpacity>
-
-      {/* --- Your Navigation Buttons --- */}
-
       {isOpen && (
         <>
           <TouchableOpacity 
             style={styles.navIcon}
             onPress={() => navigation.navigate('index')}
           >
-            {/* ... Home Icon and Text ... */}
             <Image
               style={[
                 styles.navButtonIcon,
@@ -60,7 +49,6 @@ export function Navbar({ state, navigation }: BottomTabBarProps) {
             style={styles.navIcon}
             onPress={() => navigation.navigate('shop')}
           >
-            {/* ... Shop Icon and Text ... */}
             <Image
               style={[
                 styles.navButtonIcon,
@@ -80,7 +68,6 @@ export function Navbar({ state, navigation }: BottomTabBarProps) {
             style={styles.navIcon}
             onPress={() => navigation.navigate('tasks')}
           >
-            {/* ... Tasks Icon and Text ... */}
             <Image
               style={[
                 styles.navButtonIcon,
@@ -98,8 +85,7 @@ export function Navbar({ state, navigation }: BottomTabBarProps) {
           
           <TouchableOpacity 
             style={[styles.navClose, styles.navIcon]}
-            // You might want this to close the bar too
-            onPress={() => setIsOpen(false)} // This also closes the bar
+            onPress={() => setIsOpen(false)} 
           >
             <Text style={styles.navIconText}>X</Text>
           </TouchableOpacity>
@@ -109,9 +95,7 @@ export function Navbar({ state, navigation }: BottomTabBarProps) {
   );
 }
 
-// PASTE YOUR FULL STYLESHEET OBJECT HERE
 const { width, height } = Dimensions.get("window");
-// const Colors = { ... } // Make sure Colors is defined if you use it
 
 const styles = StyleSheet.create({
   bottomNav: {
@@ -134,13 +118,12 @@ const styles = StyleSheet.create({
   },
 
   bottomNavClosed: {
-    width: width * 0.12,         // 1. Shrink width to match the toggle icon
-    height: width * 0.12,        // 2. Set height to match
-    alignSelf: "flex-start",     // 3. Move to the left
-    left: height * 0.04,         // 4. Give it the same padding from the edge as it has from the bottom
-    justifyContent: "center",    // 5. Center the single icon
-    paddingVertical: 0,          // 6. Reset padding
-    // The borderRadius: 100 from bottomNav will make this a circle
+    width: width * 0.12,        
+    height: width * 0.12,      
+    alignSelf: "flex-start",    
+    left: height * 0.04,        
+    justifyContent: "center",   
+    paddingVertical: 0,         
   },
 
 

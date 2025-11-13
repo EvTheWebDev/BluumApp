@@ -9,7 +9,7 @@ export interface ShopItem {
 }
 
 export interface ShopScreenProps {
-  shopItems: ShopItem[]; // An array of items that follow the ShopItem blueprint
+  shopItems: ShopItem[];
   userAvatarLayers: string[];
   userInventory: InventoryItem[];
   userCurrency: number;

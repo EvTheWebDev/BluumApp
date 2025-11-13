@@ -1,20 +1,23 @@
-export interface ColorPalette {
-  background: string;
-  text: string;
-  inputBorder: string;
-  button: string; 
-  placeholder: string;
-}
-
-
 export const Colors = {
-  // Brand Colors
+  // --- Brand Colors ---
   primaryGreen: '#4CAF50',
   primaryPurple: '#5A3E9B',
   accentOrange: '#FFC107',
+  lightPurple: '#734DFF',
+  
+  // --- Homepage / Main UI ---
+  appBg: "#4A5C50",
+  cardBg: "#2CB777",
+  navBg: "#411393",
+  wall: "#6A3EBF",
+  floor: "#27A36A",
+  
+  // --- Progress Bars ---
+  progressXp: "#FBC53E",
+  progressWater: "#5AC2EE",
 
-  // Task Card Colors
-  taskNursing: '#5A3E9B', // Same as primaryPurple
+  // --- Task Card Colors ---
+  taskNursing: '#5A3E9B', 
   taskNutritionBreakfast: '#FFB3BA',
   taskNutritionLunch: '#FFE082',
   taskNutritionDinner: '#A5D6A7',
@@ -24,32 +27,15 @@ export const Colors = {
   taskLeisureTeal: '#B2DFDB',
   taskLeisureIndigo: '#C5CAE9',
 
-  // Neutral & UI Colors
+  // --- Neutral & UI Colors ---
   white: '#FFFFFF',
-  cardBackground: '#FFFFFF',
-  screenBackground: '#E0F2F1',
-  placeholder: '#CCCCCC',
+  cardBackground: '#FFFFFF', 
+  screenBackground: '#5A3E9B',
+  placeholder: "#d3a48c", 
+  placeholderBorder: "#593b2b",
   
-  // Text Colors
-  textPrimary: '#333333',
-  textSecondary: '#666666',
+  // --- Text Colors ---
+  textPrimary: '#333333', 
+  textSecondary: '#666666', 
+  textLight: "#FFFFFF",
 };
-
-// OLD COLORS FROM DARK AND LIGHT THEME SETUP
-
-// export const COLORS: Record<'light' | 'dark', ColorPalette> = {
-//   light: {
-//     text: '#11181C',
-//     background: '#fff',
-//   inputBorder: '#ccc',
-//   button: '#734DFF',
-//   placeholder: '#666666',
-//   },
-//   dark: {
-//     text: '#ffffffff',
-//     background: '#411393',
-//   inputBorder: '#555',
-//   button: '#734DFF',
-//   placeholder: '#666666',
-//   },
-// };

@@ -1,17 +1,16 @@
 import React from 'react';
 import {
-    Dimensions,
-    ScrollView,
-    StyleSheet,
-    Text,
-    View
+  Dimensions,
+  ScrollView,
+  StyleSheet,
+  Text,
+  View
 } from 'react-native';
 
 import { TaskCard } from "../../components/taskCard";
 
 const { width, height } = Dimensions.get('window');
 
-// Placeholder for your Colors object if it's used elsewhere
 const Colors = {
   primaryGreen: '#27A36A', 
   lightGreen: '#2EB778',
@@ -64,7 +63,7 @@ export default function TasksScreen() {
         <Text style={styles.sectionTitle}>Nutrition</Text>
         <View style={styles.sectionContent}>
           <TaskCard
-            iconColor={'#FFB3BA'} // Light Red/Pink
+            iconColor={'#FFB3BA'} 
             title="Breakfast"
             time="8:00 am"
             duration="30 mins"
@@ -72,7 +71,7 @@ export default function TasksScreen() {
             completed={true}
           />
           <TaskCard
-            iconColor={'#FFE082'} // Light Yellow
+            iconColor={'#FFE082'} 
             title="Lunch"
             time="12:00 pm"
             duration="1 hr"
@@ -80,7 +79,7 @@ export default function TasksScreen() {
             completed={false}
           />
           <TaskCard
-            iconColor={'#A5D6A7'} // Light Green
+            iconColor={'#A5D6A7'} 
             title="Dinner"
             time="6:00 pm"
             duration="45 mins"
@@ -95,14 +94,14 @@ export default function TasksScreen() {
         <Text style={styles.sectionTitle}>Leisure</Text>
         <View style={styles.sectionContent}>
           <TaskCard
-            iconColor={'#81D4FA'} // Light Blue
+            iconColor={'#81D4FA'} 
             title="Drink Water"
             time="All Day"
             energy="00"
             completed={false}
           />
           <TaskCard
-            iconColor={'#F8BBD0'} // Light Pink
+            iconColor={'#F8BBD0'} 
             title="Take a Walk"
             time="3:00 pm"
             duration="30 mins"
@@ -110,21 +109,21 @@ export default function TasksScreen() {
             completed={false}
           />
           <TaskCard
-            iconColor={'#D1C4E9'} // Light Purple
+            iconColor={'#D1C4E9'} 
             title="Read a Book"
             time="Anytime"
             energy="00"
             completed={true}
           />
           <TaskCard
-            iconColor={'#B2DFDB'} // Teal
+            iconColor={'#B2DFDB'} 
             title="Make a Friend"
             time="Today"
             energy="00"
             completed={false}
           />
            <TaskCard
-            iconColor={'#C5CAE9'} // Indigo
+            iconColor={'#C5CAE9'} 
             title="Meditate"
             time="10:00 pm"
             duration="15 mins"

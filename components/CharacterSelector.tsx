@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { Button, Image, StyleSheet, Text, View } from 'react-native';
 
 // 1. Define all your available character options
-//    We use `require` to load the images into the app
 const characterAssets = {
   dog: {
     name: 'Rowdy',
@@ -19,9 +18,6 @@ type CharacterKey = keyof typeof characterAssets;
 export default function CharacterSelector() {
   
   // 2. Set up the state variable
-  //    'wizard' is the default value.
-  //    `selectedCharKey` will store the *key* (e.g., 'wizard')
-  //    `setSelectedCharKey` is the function we use to change it
   const [selectedCharKey, setSelectedCharKey] = useState<CharacterKey>('dog');
 
   // Get the full data object for the currently selected character
@@ -29,9 +25,6 @@ export default function CharacterSelector() {
 
   return (
     <View style={styles.container}>
-      
-      {/* 3. This Image is now dynamic! */}
-      {/* Its `source` prop depends on the `currentCharacter` state. */}
       <Image 
         source={currentCharacter.image} 
         style={styles.characterImage} 
@@ -45,7 +38,6 @@ export default function CharacterSelector() {
       <View style={styles.buttonContainer}>
         <Button
           title="Select Rowdy"
-          // When pressed, call the setter function to update the state
           onPress={() => setSelectedCharKey('dog')}
           disabled={selectedCharKey === 'dog'} 
         />
@@ -59,7 +51,6 @@ export default function CharacterSelector() {
   );
 }
 
-// Simple styles for this example
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -80,6 +71,6 @@ const styles = StyleSheet.create({
   },
   buttonContainer: {
     flexDirection: 'row',
-    gap: 15, // `gap` is great for simple spacing
+    gap: 15, 
   },
 });

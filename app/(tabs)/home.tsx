@@ -1,3 +1,4 @@
+import { TaskCard } from "@/components/taskCard";
 import React, { useState } from "react";
 import {
   Button,
@@ -8,8 +9,7 @@ import {
   StyleSheet,
   Text,
   TouchableOpacity,
-  View,
-  useWindowDimensions,
+  View
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 // Color Vars
@@ -25,6 +25,8 @@ const Colors = {
   placeholder: "#d3a48c",
   placeholderBorder: "#593b2b",
 };
+
+import { height, width } from "@/constants/dimensions";
 
 const createStyles = (width: number, height: number) =>
   StyleSheet.create({
@@ -44,21 +46,20 @@ const createStyles = (width: number, height: number) =>
       width: width,
       height: height * 0.5, // 50% of screen height
     },
-    wall: {
-      flex: 1,
-      backgroundColor: Colors.wall,
+    roomBackground: {
+      width: width,
+      resizeMode: "stretch",
+      flex: 1
     },
-    floor: {
-      height: height * 0.1, // 10% of screen height
-      backgroundColor: Colors.floor,
-      borderBottomColor: "black",
-      borderBottomWidth: 2,
+
+    wall: {
+      
     },
     characterPlaceholder: {
       width: width * 0.5,
       height: height * 0.25,
       position: "absolute",
-      bottom: height * 0.1, // 5% from bottom
+      bottom: height * 0.15, // 5% from bottom
       resizeMode: "contain",
 
       left: "50%",
@@ -122,7 +123,7 @@ const createStyles = (width: number, height: number) =>
     username: {
       color: Colors.font,
       fontWeight: "bold",
-      fontSize: width * 0.03, // 4.5% of screen width
+      fontSize: width * 0.03, 
     },
     currency: {
       flexDirection: "row",
@@ -136,34 +137,34 @@ const createStyles = (width: number, height: number) =>
     },
     gemCount: {
       backgroundColor: "#27A36A",
+      marginLeft: -15,
       ...Platform.select({
-      ios: {
-        shadowColor: '#000',
-        shadowOffset: { width: 0, height: 2 },
-        shadowOpacity: 0.25,
-        shadowRadius: 3.84,
-      },
-      android: {
-        elevation: 5,
-      },
-      default: {
-        // This will apply to BOTH 'ios' AND 'web'
-        shadowColor: '#000',
-        shadowOffset: { width: 0, height: 2 },
-        shadowOpacity: 0.25,
-        shadowRadius: 3.84,
-      },
-    }),
-    padding: 20,
-    borderRadius: 10,
+        ios: {
+          shadowColor: "#000",
+          shadowOffset: { width: 0, height: 2 },
+          shadowOpacity: 0.25,
+          shadowRadius: 3.84,
+        },
+        android: {
+          elevation: 5,
+        },
+        default: {
+          shadowColor: "#000",
+          shadowOffset: { width: 0, height: 2 },
+          shadowOpacity: 0.25,
+          shadowRadius: 3.84,
+        },
+      }),
+      padding: 20,
+      borderRadius: 10,
     },
     currencyText: {
       color: Colors.font,
-      fontSize: width * 0.025, // 3.5% of screen width
+      fontSize: width * 0.02
     },
     progressBar: {
       width: "100%",
-      height: height * 0.025, // 2.5% of screen height
+      height: height * 0.04, // 2.5% of screen height
       backgroundColor: "rgba(0, 0, 0, 0.2)",
       borderRadius: 10,
       marginTop: height * 0.015, // 1.5% of screen height
@@ -217,68 +218,6 @@ const createStyles = (width: number, height: number) =>
       justifyContent: "center",
       alignItems: "center",
     },
-
-    // Bottom Nav
-    bottomNav: {
-      position: "absolute",
-      bottom: height * 0.04,
-      alignSelf: "center",
-      flexDirection: "row",
-      alignItems: "center",
-      justifyContent: "space-evenly",
-
-      backgroundColor: "#5A3E9B",
-      borderRadius: 100,
-      paddingVertical: height * 0.01,
-      width: width * 0.8,
-
-      // Shadow (optional, but good)
-      shadowColor: "#000",
-      shadowOffset: { width: 0, height: 4 },
-      shadowOpacity: 0.3,
-      shadowRadius: 4,
-      elevation: 8,
-    },
-    navIcon: {
-      // This is the container for *each* button
-      alignItems: "center",
-      justifyContent: "center",
-      flex: 1,
-    },
-    navToggleIcon: {
-      resizeMode: "contain",
-    },
-    navToggle: {
-      width: width * 0.12,
-      height: width * 0.12,
-      borderRadius: (width * 0.12) / 2, // Makes it a circle
-    },
-    navButtonIcon: {
-      // A new style for just the <Image>
-      width: width * 0.08,
-      height: width * 0.08,
-      resizeMode: "contain",
-      tintColor: "#FFFFFF", // This is key! It makes all your SVG icons white
-    },
-    navIconText: {
-      color: "#FFFFFF",
-      fontSize: width * 0.025, // Small, responsive font
-      marginTop: height * 0.005, // Space between icon and text
-    },
-    navClose: {
-      // No extra styles needed, it just uses navIcon and navButtonIcon
-    },
-    navIconActive: {
-      //Add Selected / Active styles here 
-    },
-    activeAvatar: {
-      width: "100%",
-      height: "100%",
-      borderRadius: (width * 0.13) / 2, // Must match navIcon's radius
-      backgroundColor: Colors.placeholder,
-      borderWidth: 3,
-      borderColor: Colors.font,
-    },
   });
 
 const characterData = {
@@ -297,7 +236,7 @@ type characterKey = keyof typeof characterData;
 
 const HomeScreen = () => {
   // Setting Up Styles (Using Viewport Dimensions)
-  const { width, height } = useWindowDimensions();
+  
   const MAX_HEIGHT = 1400;
   const MAX_WIDTH = 1000;
 
@@ -321,7 +260,7 @@ const HomeScreen = () => {
           <View style={styles.roomView}>
             <ImageBackground
               source={require("../assets/images/room.png")}
-              style={{ width: "100%", height: "100%", marginLeft: -2, }}
+              style={styles.roomBackground}
             />
             <View style={styles.wall}>
               <View style={styles.roomActions}>
@@ -413,6 +352,14 @@ const HomeScreen = () => {
             {/* 3. Upcoming Tasks Card */}
             <View style={[styles.infoCard, styles.tasksCard]}>
               <Text style={styles.cardTitle}>Upcoming Tasks</Text>
+              <TaskCard
+                iconColor={"#FFB3BA"} // Light Red/Pink
+                title="Breakfast"
+                time="8:00 am"
+                duration="30 mins"
+                energy="00"
+                completed={true}
+              />
               <View style={styles.taskItem}>
                 <Text style={styles.taskText}>Placeholder for a task...</Text>
                 <Text style={styles.taskReward}>⚡ 50</Text>

@@ -1,10 +1,10 @@
 import React from 'react';
 import {
-    Dimensions,
-    Image,
-    StyleSheet,
-    Text,
-    View
+  Dimensions,
+  Image,
+  StyleSheet,
+  Text,
+  View
 } from 'react-native';
 
 import { Colors } from "../constants/theme";
@@ -18,7 +18,6 @@ import { Colors } from "../constants/theme";
    completed: boolean;
  };
  
- // Component for a single task card
  export const TaskCard = ({ iconColor, title, time, duration, energy, completed }: TaskCardProps) => {
    return (
      <View style={styles.taskCard}>
@@ -47,11 +46,10 @@ import { Colors } from "../constants/theme";
   taskCard: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: Colors.white, // Assuming Colors.white exists
+    backgroundColor: Colors.white, 
     borderRadius: 15,
     padding: width * 0.04,
     marginBottom: height * 0.015,
-    // Shadow for individual task cards
     shadowColor: "#000",
     shadowOffset: { width: 0, height: 1 },
     shadowOpacity: 0.05,
@@ -72,11 +70,11 @@ import { Colors } from "../constants/theme";
   taskTitle: {
     fontSize: width * 0.045,
     fontWeight: '600',
-    color: Colors.textPrimary, // Assuming this exists
+    color: Colors.textPrimary, 
   },
   taskTime: {
     fontSize: width * 0.035,
-    color: Colors.textSecondary, // Assuming this exists
+    color: Colors.textSecondary,
     marginTop: height * 0.003,
   },
   taskEnergy: {
@@ -87,18 +85,18 @@ import { Colors } from "../constants/theme";
   energyIcon: {
     width: 20,
     height: 20,
-    marginRight: 4, // Added some spacing
+    marginRight: 4,
   },
   taskEnergyText: {
     fontSize: width * 0.04,
     fontWeight: 'bold',
-    color: Colors.accentOrange, // Assuming this exists
+    color: Colors.accentOrange, 
   },
   placeholderCheckIcon: {
     width: width * 0.07,
     height: width * 0.07,
     borderRadius: (width * 0.07) / 2,
     borderWidth: 2,
-    borderColor: Colors.placeholder, // Assuming this exists
+    borderColor: Colors.placeholder,
   },
 });

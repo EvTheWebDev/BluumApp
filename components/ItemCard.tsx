@@ -1,13 +1,12 @@
-// components/ItemCard.tsx
 import React from 'react';
 import {
-    Image,
-    StyleSheet,
-    Text,
-    TouchableOpacity,
-    View,
+  Image,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
 } from 'react-native';
-import { ShopItem } from '../dataTypes/shopData'; // Adjust import path'
+import { ShopItem } from '../dataTypes/shopData';
 
 const BASE_URL = 'https://your-api-domain.com/assets';
 
@@ -42,7 +41,6 @@ const ItemCard = ({ item, inventoryStatus, onPress }: ItemCardProps) => {
   );
 };
 
-// These styles are now self-contained within the component file
 const styles = StyleSheet.create({
   shopItem: {
     flex: 1,
