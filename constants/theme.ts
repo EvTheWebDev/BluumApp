@@ -17,11 +17,12 @@ export const Colors = {
   progressWater: "#5AC2EE",
 
   // --- Task Card Colors ---
-  taskNursing: '#5A3E9B', 
-  taskNutritionBreakfast: '#FFB3BA',
-  taskNutritionLunch: '#FFE082',
-  taskNutritionDinner: '#A5D6A7',
-  taskLeisureBlue: '#81D4FA',
+  taskMedicine: '#D4C9FF',
+  taskNursing: '#FFD2F5',
+  taskNutritionBreakfast: '#FFE6EB',
+  taskNutritionLunch: '#FDF4DC',
+  taskNutritionDinner: '#DAFFE5',
+  taskWater: '#98dfffff',
   taskLeisurePink: '#F8BBD0',
   taskLeisurePurple: '#D1C4E9',
   taskLeisureTeal: '#B2DFDB',
@@ -33,6 +34,11 @@ export const Colors = {
   screenBackground: '#5A3E9B',
   placeholder: "#d3a48c", 
   placeholderBorder: "#593b2b",
+  lightPurpleBackground: "#968EDA",
+  lightPurpleCardBackground: "#D7BAFF",
+
+  purpleButtonInactive: "#844AFF",
+  purpleButtonActive: "#D7BAFF",
   
   // --- Text Colors ---
   textPrimary: '#333333', 

@@ -33,13 +33,13 @@ export function Navbar({ state, navigation }: BottomTabBarProps) {
             <Image
               style={[
                 styles.navButtonIcon,
-                activeRouteName === 'index' && { tintColor: '#FFA500' }
+                activeRouteName === 'home' && { tintColor: '#DEC7FF' }
               ]}
               source={require("../app/assets/icons/homeIcon.svg")}
             />
             <Text style={[
               styles.navIconText,
-              activeRouteName === 'index' && { fontWeight: 'bold' }
+              activeRouteName === 'home' && { color: '#DEC7FF' }
             ]}>
               Home
             </Text>
@@ -52,13 +52,13 @@ export function Navbar({ state, navigation }: BottomTabBarProps) {
             <Image
               style={[
                 styles.navButtonIcon,
-                activeRouteName === 'shop' && { tintColor: '#FFA500' } 
+                activeRouteName === 'shop' && { tintColor: '#DEC7FF' } 
               ]}
               source={require("../app/assets/icons/shopIcon.svg")}
             />
             <Text style={[
               styles.navIconText,
-              activeRouteName === 'shop' && { fontWeight: 'bold' }
+              activeRouteName === 'shop' && { color: '#DEC7FF' }
             ]}>
               Shop
             </Text>
@@ -71,13 +71,13 @@ export function Navbar({ state, navigation }: BottomTabBarProps) {
             <Image
               style={[
                 styles.navButtonIcon,
-                activeRouteName === 'tasks' && { tintColor: '#FFA500' }
+                activeRouteName === 'tasks' && { tintColor: '#DEC7FF' }
               ]}
               source={require("../app/assets/icons/tasksIcon.svg")}
             />
             <Text style={[
               styles.navIconText,
-              activeRouteName === 'tasks' && { fontWeight: 'bold' }
+              activeRouteName === 'tasks' && { color: '#DEC7FF' }
             ]}>
               Tasks
             </Text>
@@ -87,7 +87,10 @@ export function Navbar({ state, navigation }: BottomTabBarProps) {
             style={[styles.navClose, styles.navIcon]}
             onPress={() => setIsOpen(false)} 
           >
-            <Text style={styles.navIconText}>X</Text>
+           <Image
+            style={[styles.navButtonIcon, styles.navClose]}
+            source={require("../app/assets/icons/closeX.png")}
+           /> 
           </TouchableOpacity>
         </>
       )}
@@ -151,5 +154,7 @@ const styles = StyleSheet.create({
     fontSize: width * 0.025,
     marginTop: height * 0.005,
   },
-  navClose: {},
+  navClose: {
+    width: width * 0.04
+  },
 });

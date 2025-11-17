@@ -1,16 +1,19 @@
 import React from 'react';
 import {
-  Dimensions,
   Image,
+  ImageSourcePropType,
   StyleSheet,
   Text,
+  TouchableOpacity,
   View
 } from 'react-native';
 
+import { effectiveHeight, effectiveWidth } from '@/constants/dimensions';
 import { Colors } from "../constants/theme";
  
- type TaskCardProps = {
-   iconColor: string;
+type TaskCardProps = {
+   icon?: ImageSourcePropType;
+   iconBG: string;
    title: string;
    time: string;
    duration?: string; // <-- The ? makes this prop optional
@@ -18,85 +21,99 @@ import { Colors } from "../constants/theme";
    completed: boolean;
  };
  
- export const TaskCard = ({ iconColor, title, time, duration, energy, completed }: TaskCardProps) => {
-   return (
-     <View style={styles.taskCard}>
-       <View style={[styles.placeholderImage, { backgroundColor: iconColor }]} />
-       <View style={styles.taskDetails}>
-         <Text style={styles.taskTitle}>{title}</Text>
-         <Text style={styles.taskTime}>
-           {time} {duration && `· ${duration}`}
-         </Text>
+ export const TaskCard = ({ icon, iconBG, title, time, duration, energy, completed }: TaskCardProps) => {
+  const styles = createStyles(effectiveWidth, effectiveHeight);
+  return (
+       <View style={styles.taskCard}>
+         <View style={[styles.icon, { backgroundColor: iconBG }]} > 
+          <Image
+          source={icon}
+          />
+         </View>
+         <View style={styles.taskDetails}>
+           <Text style={styles.taskTitle}>{title}</Text>
+           <Text style={styles.taskTime}>
+             {time} {duration && `· ${duration}`}
+           </Text>
+         </View>
+         <View style={styles.taskEnergy}>
+           <Image style={styles.energyIcon} source={require("../app/assets/icons/xpIcon.png")}/>
+           <Text style={styles.taskEnergyText}>{energy}</Text>
+         </View>
+           <TouchableOpacity style={styles.checkbox}>
+              <Image
+              source={require("../app/assets/icons/checkBox.png")}
+              />
+           </TouchableOpacity>
        </View>
-       <View style={styles.taskEnergy}>
-         <Image style={styles.energyIcon} source={require("../app/assets/icons/xpIcon.png")}/>
-         <Text style={styles.taskEnergyText}>{energy}</Text>
-       </View>
-       {completed ? (
-         <View style={[styles.placeholderCheckIcon, { backgroundColor: Colors.primaryGreen }]} />
-       ) : (
-         <View style={[styles.placeholderCheckIcon, { backgroundColor: Colors.placeholder }]} />
-       )}
-     </View>
-   );
- };
+     );
+   };
 
- const { width, height } = Dimensions.get('window');
- const styles = StyleSheet.create({
+const createStyles = (effectiveWidth: number, effectiveHeight: number) =>
+  StyleSheet.create({
   taskCard: {
     flexDirection: 'row',
     alignItems: 'center',
     backgroundColor: Colors.white, 
     borderRadius: 15,
-    padding: width * 0.04,
-    marginBottom: height * 0.015,
+    padding: effectiveWidth * 0.025,
+    marginBottom: effectiveHeight * 0.015,
     shadowColor: "#000",
     shadowOffset: { width: 0, height: 1 },
     shadowOpacity: 0.05,
     shadowRadius: 2,
     elevation: 2,
   },
-  placeholderImage: {
-    width: width * 0.1,
-    height: width * 0.1,
+  icon: {
+    width: effectiveWidth * 0.1,
+    height: effectiveWidth * 0.1,
     borderRadius: 10,
-    marginRight: width * 0.04,
+    marginRight: effectiveWidth * 0.04,
     justifyContent: 'center',
     alignItems: 'center',
   },
+  taskIcon: {
+  },
   taskDetails: {
     flex: 1,
+    marginLeft: -10,
   },
   taskTitle: {
-    fontSize: width * 0.045,
-    fontWeight: '600',
+    fontSize: effectiveWidth * 0.03,
+    
+    fontWeight: '700',
     color: Colors.textPrimary, 
   },
   taskTime: {
-    fontSize: width * 0.035,
+    fontSize: effectiveWidth * 0.025,
     color: Colors.textSecondary,
-    marginTop: height * 0.003,
+    marginTop: effectiveHeight * 0.003,
   },
   taskEnergy: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginRight: width * 0.03,
+    marginRight: effectiveWidth * 0.03,
   },
   energyIcon: {
-    width: 20,
-    height: 20,
+    width: effectiveWidth * .03,
+    height: effectiveHeight * .03,
     marginRight: 4,
   },
   taskEnergyText: {
-    fontSize: width * 0.04,
-    fontWeight: 'bold',
-    color: Colors.accentOrange, 
+    fontSize: effectiveWidth * 0.04,
+    color: Colors.textSecondary, 
   },
   placeholderCheckIcon: {
-    width: width * 0.07,
-    height: width * 0.07,
-    borderRadius: (width * 0.07) / 2,
+    width: effectiveWidth * 0.07,
+    height: effectiveWidth * 0.07,
+    borderRadius: (effectiveWidth * 0.07) / 2,
     borderWidth: 2,
     borderColor: Colors.placeholder,
+  },
+  checkbox: {
+    width: effectiveWidth * 0.05,
+    height: effectiveWidth * 0.05,
+    borderRadius: (effectiveWidth * 0.07) / 2,
+    marginRight: 25,
   },
 });

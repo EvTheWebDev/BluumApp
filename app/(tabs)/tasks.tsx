@@ -1,31 +1,24 @@
 import React from 'react';
 import {
-  Dimensions,
   ScrollView,
   StyleSheet,
   Text,
   View
 } from 'react-native';
 
+import { effectiveHeight, effectiveWidth } from "@/constants/dimensions";
+import { Colors } from "@/constants/theme";
 import { TaskCard } from "../../components/taskCard";
 
-const { width, height } = Dimensions.get('window');
 
-const Colors = {
-  primaryGreen: '#27A36A', 
-  lightGreen: '#2EB778',
-  primaryPurple: '#5A3E9B', 
-  white: '#f7f7f7ff',
-  textPrimary: '#333333',
-  textSecondary: '#666666',
-  placeholder: '#CCCCCC',
-  accentOrange: '#FFC107', 
-};
+
+
 
 
 
 
 export default function TasksScreen() {
+  const styles = createStyles(effectiveWidth, effectiveHeight);
   return (
     <ScrollView style={styles.container}>
       <Text style={styles.headerTitle}>Upcoming Tasks</Text>
@@ -35,24 +28,28 @@ export default function TasksScreen() {
         <Text style={styles.sectionTitle}>Nursing</Text>
         <View style={styles.sectionContent}>
           <TaskCard
-            iconColor={Colors.primaryPurple}
+            iconBG={Colors.taskMedicine}
+            icon={require("../assets/icons/medicine.png")}
             title="Morning Medication"
             time="6:00 am"
-            energy="00"
+            energy="50"
             completed={true}
           />
           <TaskCard
-            iconColor={Colors.primaryPurple}
+            iconBG={Colors.taskNursing}
+            icon={require("../assets/icons/medical.png")}
             title="Bandage Change"
             time="6:00 am"
-            energy="00"
+            duration='20 mins'
+            energy="25"
             completed={false}
           />
           <TaskCard
-            iconColor={Colors.primaryPurple}
+            iconBG={Colors.taskMedicine}
+            icon={require("../assets/icons/medicine.png")}
             title="Night Medication"
             time="6:00 am"
-            energy="00"
+            energy="50"
             completed={false}
           />
         </View>
@@ -63,27 +60,30 @@ export default function TasksScreen() {
         <Text style={styles.sectionTitle}>Nutrition</Text>
         <View style={styles.sectionContent}>
           <TaskCard
-            iconColor={'#FFB3BA'} 
+            iconBG={Colors.taskNutritionBreakfast} 
+            icon={require("../assets/icons/breakfast.png")}
             title="Breakfast"
             time="8:00 am"
             duration="30 mins"
-            energy="00"
+            energy="40"
             completed={true}
           />
           <TaskCard
-            iconColor={'#FFE082'} 
+            iconBG={Colors.taskNutritionLunch}
+            icon={require("../assets/icons/lunch.png")}
             title="Lunch"
             time="12:00 pm"
             duration="1 hr"
-            energy="00"
+            energy="50"
             completed={false}
           />
           <TaskCard
-            iconColor={'#A5D6A7'} 
+            iconBG={Colors.taskNutritionDinner}
+            // icon={require("../assets/icons/dinner.png")}
             title="Dinner"
             time="6:00 pm"
             duration="45 mins"
-            energy="00"
+            energy="40"
             completed={false}
           />
         </View>
@@ -94,14 +94,14 @@ export default function TasksScreen() {
         <Text style={styles.sectionTitle}>Leisure</Text>
         <View style={styles.sectionContent}>
           <TaskCard
-            iconColor={'#81D4FA'} 
+            iconBG={Colors.taskWater} 
             title="Drink Water"
             time="All Day"
             energy="00"
             completed={false}
           />
           <TaskCard
-            iconColor={'#F8BBD0'} 
+            iconBG={'#F8BBD0'} 
             title="Take a Walk"
             time="3:00 pm"
             duration="30 mins"
@@ -109,21 +109,21 @@ export default function TasksScreen() {
             completed={false}
           />
           <TaskCard
-            iconColor={'#D1C4E9'} 
+            iconBG={'#D1C4E9'} 
             title="Read a Book"
             time="Anytime"
             energy="00"
             completed={true}
           />
           <TaskCard
-            iconColor={'#B2DFDB'} 
+            iconBG={'#B2DFDB'} 
             title="Make a Friend"
             time="Today"
             energy="00"
             completed={false}
           />
            <TaskCard
-            iconColor={'#C5CAE9'} 
+            iconBG={'#C5CAE9'} 
             title="Meditate"
             time="10:00 pm"
             duration="15 mins"
@@ -134,33 +134,34 @@ export default function TasksScreen() {
       </View>
 
       {/* Add some padding at the bottom so the nav bar doesn't overlap content */}
-      <View style={{ height: height * 0.15 }} /> 
+      <View style={styles.bottomSpacer} /> 
     </ScrollView>
   );
 }
 
-const styles = StyleSheet.create({
+const createStyles = (effectiveWidth: number, effectiveHeight: number) =>
+  StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: Colors.primaryGreen,
-    paddingTop: height * 0.05, 
+    backgroundColor: Colors.floor,
+    paddingTop: effectiveHeight * 0.05, 
   },
   headerTitle: {
-    fontSize: width * 0.07,
+    fontSize: effectiveWidth * 0.07,
     fontWeight: 'bold',
     textAlign: 'center',
-    marginBottom: height * 0.04,
+    marginBottom: effectiveHeight * 0.04,
     color: Colors.white,
   },
   sectionContainer: {
-    marginBottom: height * 0.03,
-    backgroundColor: Colors.lightGreen,
+    marginBottom: effectiveHeight * 0.03,
+    backgroundColor: Colors.cardBg,
     width: "90%",
     alignSelf: "center",
     borderRadius: 20
 },
   sectionTitle: {
-    fontSize: width * 0.05,
+    fontSize: effectiveWidth * 0.05,
     fontWeight: 'bold',
     padding: 5,
     marginTop: 10,
@@ -169,10 +170,10 @@ const styles = StyleSheet.create({
     
   },
   sectionContent: {
-    marginHorizontal: width * 0.03,
+    marginHorizontal: effectiveWidth * 0.03,
     borderRadius: 20,
-    paddingVertical: height * 0.02,
-    paddingHorizontal: width * 0.03,
+    paddingVertical: effectiveHeight * 0.02,
+    paddingHorizontal: effectiveWidth * 0.03,
 
     shadowColor: "#000",
     shadowOffset: { width: 0, height: 2 },
@@ -181,4 +182,7 @@ const styles = StyleSheet.create({
     elevation: 5,
   },
  
+  bottomSpacer: {
+    height: effectiveHeight * 0.014
+  }
 });
