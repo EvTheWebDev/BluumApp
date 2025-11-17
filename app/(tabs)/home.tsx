@@ -201,8 +201,8 @@ const createStyles = (effectiveWidth: number, effectiveHeight: number) =>
       gap: effectiveWidth * 0.02,
     },
     iconButton: {
-      width: effectiveWidth * 0.065,
-      height: effectiveHeight * 0.065,
+      width: effectiveWidth * 0.08,
+      height: effectiveHeight * 0.07,
       borderRadius: (effectiveWidth * 0.1) / 2,
       backgroundColor: "rgba(88, 88, 88, 0.3)",
     },
