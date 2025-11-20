@@ -1,88 +1,43 @@
+import { effectiveHeight, effectiveWidth } from "@/constants/dimensions";
 import { Colors } from "@/constants/theme";
+// import { useCharacter } from "@/context/CharacterContext";
 import React, { useState } from "react";
 import {
   Image,
+  ImageBackground,
   Platform,
   ScrollView,
   StyleSheet,
   Text,
   TouchableOpacity,
-  View,
-  useWindowDimensions,
+  View
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
-// --- Mock Data Array ---
-// REPLACE THIS WITH LARAVEL SHOP TABLE PULL
-const MOCK_SHOP_ITEMS = [
-  {
-    id: 1,
-    cat: "hat",
-    name: "Beanie",
-    icon: require("../assets/icons/shop-beanie.png"),
-    price: 600,
-  },
+import ItemCard from "@/components/ItemCard";
+import { ShopItem } from "@/dataTypes/shopData";
 
-  {
-    id: 2,
-    name: "Bow",
-    cat: "hat",
-    icon: require("../assets/icons/shop-bow.png"),
-    price: 600,
-  },
-  {
-    id: 3,
-    name: "Glasses",
-    cat: "acc",
-    icon: require("../assets/icons/shop-glasses.png"),
-    price: 600,
-  },
-  {
-    id: 4,
-    name: "Dress",
-    cat: "shirt",
-    icon: require("../assets/icons/shop-dress.png"),
-    price: 600,
-  },
-  {
-    id: 5,
-    name: "Sneakers",
-    cat: "shoes",
-    icon: require("../assets/icons/shop-sneakers.png"),
-    price: 600,
-  },
-  {
-    id: 6,
-    name: "Jacket",
-    cat: "shirt",
-    icon: require("../assets/icons/shop-jacket.png"),
-    price: 600,
-  },
-  {
-    id: 7,
-    name: "Bow Tie",
-    cat: "acc",
-    icon: require("../assets/icons/shop-bowtie.png"),
-    price: 600,
-  },
-  {
-    id: 8,
-    name: "Tuxedo",
-    cat: "shirt",
-    icon: require("../assets/icons/shop-tuxedo.png"),
-    price: 600,
-  },
+const MOCK_SHOP_ITEMS: ShopItem[] = [
+  { id: 1, cat: "Hat", name: "Beanie", icon: require("../assets/icons/shop-beanie.png"), price: 600 },
+  { id: 2, name: "Bow", cat: "Hat", icon: require("../assets/icons/shop-bow.png"), price: 600 },
+  { id: 3, name: "Glasses", cat: "Eyewear", icon: require("../assets/icons/shop-glasses.png"), price: 600 },
+  { id: 4, name: "Dress", cat: "Shirt", icon: require("../assets/icons/shop-dress.png"), price: 600 },
+  { id: 5, name: "Sneakers", cat: "Footwear", icon: require("../assets/icons/shop-sneakers.png"), price: 600 },
+  { id: 6, name: "Jacket", cat: "Shirt", icon: require("../assets/icons/shop-jacket.png"), price: 600 },
+  { id: 7, name: "Bow Tie", cat: "acc", icon: require("../assets/icons/shop-bowtie.png"), price: 600 },
+  { id: 8, name: "Tuxedo", cat: "Shirt", icon: require("../assets/icons/shop-tuxedo.png"), price: 600 },
 ];
 
-// Mock categories
 const CATEGORIES = [
-  { id: "all", icon: require("../assets/icons/closetButton.png") },
-  { id: "shirts", icon: require("../assets/icons/catShirts.png") },
-  { id: "acc", icon: require("../assets/icons/catGlasses.png") },
-  { id: "shoes", icon: require("../assets/icons/catShoes.png") },
-  { id: "hats", icon: require("../assets/icons/catHats.png") },
-  { id: "jackets", icon: require("../assets/icons/catJackets.png") },
+  { id: "All", icon: require("../assets/icons/closetButton.png") },
+  { id: "Shirts", icon: require("../assets/icons/catShirts.png") },
+  { id: "Accessories", icon: require("../assets/icons/catGlasses.png") },
+  { id: "Shoes", icon: require("../assets/icons/catShoes.png") },
+  { id: "Hats", icon: require("../assets/icons/catHats.png") },
+  { id: "Jackets", icon: require("../assets/icons/catJackets.png") },
 ];
+
+
 
 // Styles
 const createStyles = (effectiveWidth: number, effectiveHeight: number) =>
@@ -90,11 +45,13 @@ const createStyles = (effectiveWidth: number, effectiveHeight: number) =>
     appContainer: {
       flex: 1,
       backgroundColor: Colors.wall,
+      width: effectiveWidth * 1,
+      alignSelf: "center",
     },
 
     // --- Top Preview Area ---
     roomView: {
-      width: effectiveWidth,
+      width: "100%",
       height: effectiveHeight * 0.45,
       position: "absolute",
       top: 0,
@@ -109,6 +66,13 @@ const createStyles = (effectiveWidth: number, effectiveHeight: number) =>
       borderTopColor: "#000",
       borderTopWidth: 2,
     },
+
+    spotlight: {
+      position: "absolute",
+      zIndex: 2,
+      alignSelf: "center",
+    },
+
     characterPlaceholder: {
       width: effectiveWidth * 0.5,
       height: effectiveHeight * 0.25,
@@ -116,33 +80,29 @@ const createStyles = (effectiveWidth: number, effectiveHeight: number) =>
       bottom: effectiveHeight * 0.05,
       resizeMode: "contain",
       alignSelf: "center",
+      zIndex: 2,
     },
     roomActions: {
       position: "absolute",
-      bottom: effectiveHeight * 0.12,
+      bottom: effectiveHeight * 0.06,
       right: effectiveWidth * 0.05,
-      flexDirection: "column",
-      gap: effectiveWidth * 0.025,
+      flexDirection: "row",
+      gap: effectiveWidth * 0.02,
+      zIndex: 2,
     },
     iconButton: {
-      width: effectiveWidth * 0.1,
-      height: effectiveHeight * 0.12,
-      borderRadius: (effectiveWidth * 0.12) / 2,
-      justifyContent: "center",
-      alignItems: "center",
-    },
-    iconButtonImage: {
-      resizeMode: "contain",
-      tintColor: "#FFF",
+      width: effectiveWidth * 0.08,
+      height: effectiveHeight * 0.07,
+      borderRadius: (effectiveWidth * 0.1) / 2,
     },
 
     // --- Bottom Shop Panel ---
     shopPanel: {
       position: "absolute",
       bottom: 0,
-      width: "100%",
+      width: "100%", 
       height: effectiveHeight * 0.6,
-      backgroundColor: Colors.lightPurpleBackground,
+      backgroundColor: Colors.lightPurpleBackground , 
       borderTopLeftRadius: 30,
       borderTopRightRadius: 30,
       paddingHorizontal: effectiveWidth * 0.05,
@@ -161,8 +121,8 @@ const createStyles = (effectiveWidth: number, effectiveHeight: number) =>
       }),
     },
     panelTitle: {
-      fontSize: effectiveWidth * 0.045,
-      fontWeight: "600",
+      fontSize: effectiveWidth * 0.04,
+      fontWeight: "bold",
       color: Colors.white,
       marginBottom: effectiveHeight * 0.02,
     },
@@ -171,190 +131,128 @@ const createStyles = (effectiveWidth: number, effectiveHeight: number) =>
       padding: 20,
       borderRadius: 20,
       width: "100%",
+      flex: 1,
     },
-
     categories: {
       flexDirection: "row",
       width: "100%",
-      gap: 20,
+      gap: 25,
       justifyContent: "center",
       alignItems: "center",
-      marginBottom: 50,
+      marginBottom: 20,
     },
     categoryIcon: {
-      width: effectiveWidth * 0.08,
-      height: effectiveWidth * 0.08,
-      borderRadius: (effectiveWidth * 0.14) / 2,
+      width: effectiveWidth * 0.07,
+      height: effectiveWidth * 0.07,
+      borderRadius: (effectiveWidth * 0.07) / 2,
       justifyContent: "center",
       alignItems: "center",
     },
     categoryIconImage: {
-      width: "70%",
-      height: "70%",
+      width: "60%",
+      height: "60%",
       resizeMode: "contain",
       tintColor: "white",
     },
-    // --- Item Grid ---
     itemGridContainer: {
-      flex: 1,
+      flex: 1, 
     },
-    itemGridContentContainer: {
-      flex: 1,
-      flexDirection: "row",
-      flexWrap: "wrap",
-      justifyContent: "space-between",
-      paddingBottom: effectiveHeight * 0.1,
-    },
-    itemGrid: {
-      flex: 1,
-      flexDirection: "row",
-      flexWrap: "wrap",
-      justifyContent: "space-between",
-    },
-    itemCard: {
-      backgroundColor: Colors.lightPurpleCardBackground,
-      width: effectiveWidth * 0.2,
-      height: effectiveHeight * 0.2,
-      borderRadius: 20,
-      padding: effectiveWidth * 0.02,
-      alignItems: "center",
-      justifyContent: "center",
-      marginBottom: effectiveWidth * 0.04,
 
-      ...Platform.select({
-        ios: {
-          shadowColor: "#000",
-          shadowOffset: { width: 0, height: 2 },
-          shadowOpacity: 0.05,
-          shadowRadius: 4,
-        },
-        android: {
-          elevation: 3,
-        },
-      }),
-    },
-    itemIcon: {
-      resizeMode: "cover",
-    },
-    priceContainer: {
+    itemGrid: {
       flexDirection: "row",
-      alignItems: "center",
-      justifyContent: "center",
+      flexWrap: "wrap",
+      justifyContent: "space-between",
+      paddingBottom: 20,
     },
-    gemIcon: {
-      width: effectiveWidth * 0.03,
-      height: effectiveHeight * 0.03,
-      resizeMode: "contain",
-    },
-    priceText: {
-      color: Colors.textPrimary,
-      fontWeight: "bold",
-      fontSize: effectiveWidth * 0.025,
-    },
-    
   });
 
-// --- Shop Screen Component ---
 const ShopScreen = () => {
-  // --- Hooks ---
-  const { width, height } = useWindowDimensions();
-  const MAX_WIDTH = 1000;
-  const MAX_HEIGHT = 1400;
-  const effectiveWidth = Math.min(width, MAX_WIDTH);
-  const effectiveHeight = Math.min(height, MAX_HEIGHT);
   const styles = createStyles(effectiveWidth, effectiveHeight);
+  // const { currentCharacterImage } = useCharacter();
 
-  // State for shop items (from mock data)
-  const [shopItems, setShopItems] = useState(MOCK_SHOP_ITEMS);
+  const [shopItems, setShopItems] = useState<ShopItem[]>(MOCK_SHOP_ITEMS);
+  const [selectedCategory, setSelectedCategory] = useState("All");
 
-  // State for selected category
-  const [selectedCategory, setSelectedCategory] = useState("all");
+  const selectedCategoryObject = CATEGORIES.find(
+  (cat) => cat.id === selectedCategory
+);
 
   return (
     <SafeAreaView style={styles.appContainer} edges={["top"]}>
       <View style={styles.roomView}>
         <View style={styles.wall} />
         <View style={styles.floor} />
+        <View style={styles.spotlight}>
+            <Image 
+            source={require("../assets/images/spotlight.png")}
+            />
+        </View>
         <Image
-          source={require("../assets/icons/axolotlCharacter.svg")}
+          source={require("../assets/icons/rowdyCharacter.svg")}
           style={styles.characterPlaceholder}
         />
-        {/* Room action icons from screenshot */}
-        <View style={styles.roomActions}>
-          <TouchableOpacity style={styles.iconButton}>
-            <Image
-              source={require("../assets/icons/closetButton.svg")}
-              style={styles.iconButtonImage}
-            />
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.iconButton}>
-            <Image
-              source={require("../assets/icons/roomButton.svg")}
-              style={styles.iconButtonImage}
-            />
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.iconButton}>
-            <Image
-              source={require("../assets/icons/poseButton.svg")}
-              style={styles.iconButtonImage}
-            />
-          </TouchableOpacity>
-        </View>
+       <View style={styles.roomActions}>
+                       <TouchableOpacity>
+                         <ImageBackground
+                           source={require("../assets/icons/closetButton.svg")}
+                           style={styles.iconButton}
+                         />
+                       </TouchableOpacity>
+       
+                       <TouchableOpacity>
+                         <ImageBackground
+                           source={require("../assets/icons/roomButton.svg")}
+                           style={styles.iconButton}
+                         />
+                       </TouchableOpacity>
+                       <TouchableOpacity>
+                         <ImageBackground
+                           source={require("../assets/icons/poseButton.svg")}
+                           style={styles.iconButton}
+                         />
+                       </TouchableOpacity>
+                     </View>
       </View>
 
-      {/* 2. Bottom Shop Panel */}
       <View style={styles.shopPanel}>
-        {/* Categories */}
+        <Text style={styles.panelTitle}>Clothes • {selectedCategory}</Text>
 
-        {/* Item Grid */}
-        <ScrollView
-          style={styles.itemGridContainer}
-          contentContainerStyle={styles.itemGridContentContainer}
-          showsVerticalScrollIndicator={false}
-        >
-          <Text style={styles.panelTitle}>Clothes • All</Text>
-          <View style={styles.categoriesAndItems}>
-            <View
-              // horizontal
-              // showsHorizontalScrollIndicator={false}
-              // style={styles.categoryScrollView}
-              style={styles.categories}
-            >
-              {CATEGORIES.map((cat) => (
-                <TouchableOpacity
-                  key={cat.id}
-                  style={[
-                    styles.categoryIcon,
-                    {
-                      backgroundColor:
-                        selectedCategory === cat.id
-                          ? Colors.purpleButtonActive
-                          : Colors.purpleButtonInactive,
-                    },
-                  ]}
-                  onPress={() => setSelectedCategory(cat.id)}
-                >
-                  <Image source={cat.icon} style={styles.categoryIconImage} />
-                </TouchableOpacity>
-              ))}
-            </View>
+        <View style={styles.categoriesAndItems}>
+          <View style={styles.categories}>
+            {CATEGORIES.map((cat) => (
+              <TouchableOpacity
+                key={cat.id}
+                style={[
+                  styles.categoryIcon,
+                  {
+                    backgroundColor:
+                      selectedCategory === cat.id
+                        ? "#A592D8"
+                        : "#7B5FBF", 
+                  },
+                ]}
+                onPress={() => setSelectedCategory(cat.id)}
+              >
+                <Image source={cat.icon} style={styles.categoryIconImage} />
+              </TouchableOpacity>
+            ))}
+          </View>
+
+          <ScrollView
+            style={styles.itemGridContainer}
+            showsVerticalScrollIndicator={false}
+          >
             <View style={styles.itemGrid}>
               {shopItems.map((item) => (
-                <TouchableOpacity key={item.id} style={styles.itemCard}>
-                  <Image style={styles.itemIcon} source={item.icon} />
-                  {/* <Image source={item.icon} style={styles.itemIcon} /> */}
-                  <View style={styles.priceContainer}>
-                    <Image
-                      source={require("../assets/icons/currencyIcon.png")}
-                      style={styles.gemIcon}
-                    />
-                    <Text style={styles.priceText}>{item.price}</Text>
-                  </View>
-                </TouchableOpacity>
+                <ItemCard 
+                  key={item.id} 
+                  item={item} 
+                  onPress={() => console.log("Pressed", item.name)}
+                />
               ))}
             </View>
-          </View>
-        </ScrollView>
+          </ScrollView>
+        </View>
       </View>
     </SafeAreaView>
   );

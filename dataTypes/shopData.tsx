@@ -1,17 +1,17 @@
-import { InventoryItem } from './inventoryData';
+import { ImageSourcePropType } from 'react-native';
+// import { InventoryItem } from './inventoryData'; // Uncomment if you have this file
 
 export interface ShopItem {
   id: number;
   name: string;
-  category: 'Hat' | 'Eyewear' | 'Shirt' | 'Footwear';
+  cat: 'Hat' | 'Eyewear' | 'Shirt' | 'Footwear' | 'acc' | 'shoes'; // Added categories from your mock data
   price: number;
-  imageUrl: string;
+  // Changed from 'string' to allow require() assets
+  icon: ImageSourcePropType; 
 }
 
 export interface ShopScreenProps {
   shopItems: ShopItem[];
-  userAvatarLayers: string[];
-  userInventory: InventoryItem[];
+  // userInventory: InventoryItem[];
   userCurrency: number;
 }
-

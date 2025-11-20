@@ -1,81 +1,100 @@
+import { Colors } from '@/constants/theme';
 import React from 'react';
 import {
   Image,
+  Platform,
   StyleSheet,
   Text,
   TouchableOpacity,
-  View,
+  View
 } from 'react-native';
 import { ShopItem } from '../dataTypes/shopData';
 
-const BASE_URL = 'https://your-api-domain.com/assets';
-
 type ItemCardProps = {
   item: ShopItem;
-  inventoryStatus: 'equipped' | 'owned' | 'unowned';
-  onPress: () => void;
+  onPress?: () => void;
 };
 
-const ItemCard = ({ item, inventoryStatus, onPress }: ItemCardProps) => {
+const ItemCard = ({ item, onPress }: ItemCardProps) => {
   return (
-    <TouchableOpacity style={styles.shopItem} onPress={onPress}>
-      <Image source={{ uri: item.imageUrl }} style={styles.itemIcon} />
-      <View style={styles.itemDetails}>
-        {inventoryStatus === 'unowned' && (
-          <>
-            <Image
-              source={{ uri: `${BASE_URL}/UI/gem.png` }}
-              style={styles.gemIcon}
-            />
-            <Text style={styles.itemText}>{item.price}</Text>
-          </>
-        )}
-        {inventoryStatus === 'owned' && (
-          <Text style={styles.itemText}>Owned</Text>
-        )}
-        {inventoryStatus === 'equipped' && (
-          <Text style={styles.itemText}>Equipped</Text>
-        )}
+    <TouchableOpacity style={styles.shopItem} onPress={onPress} activeOpacity={0.7}>
+      
+      <View style={styles.imageContainer}>
+        <Image source={item.icon} style={styles.itemIcon} />
       </View>
+
+      <View style={styles.priceContainer}>
+        <Image
+          source={require("../app/assets/icons/gem.png")}
+          style={styles.gemIcon}
+        />
+        <Text style={styles.priceText}>{item.price}</Text>
+      </View>
+
     </TouchableOpacity>
   );
 };
 
 const styles = StyleSheet.create({
   shopItem: {
-    flex: 1,
-    aspectRatio: 1,
-    margin: 5,
-    borderRadius: 10,
-    backgroundColor: '#F0F4F8',
+
+    // Layout
+    width: "23%",
+    aspectRatio: 1, 
+    marginBottom: 15,
+    padding: 10,
+    
+    // Styling
+    backgroundColor: Colors.lightPurpleCardBackground, 
+    borderRadius: 20,
+    
+    flexDirection: 'column',
+    justifyContent: 'space-between',
+
+    ...Platform.select({
+      ios: {
+        shadowColor: "#000",
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.05,
+        shadowRadius: 4,
+      },
+      android: {
+        elevation: 3,
+      },
+    }),
+  },
+  
+  imageContainer: {
+    flex: 1, 
+    width: '100%',
     justifyContent: 'center',
     alignItems: 'center',
-    overflow: 'hidden',
+    marginBottom: 5,
   },
+  
   itemIcon: {
-    width: '70%',
-    height: '70%',
-    resizeMode: 'contain',
+    width: '80%',
+    height: '80%',
+    resizeMode: 'contain', 
   },
-  itemDetails: {
-    position: 'absolute',
-    bottom: 0,
-    left: 0,
-    right: 0,
-    height: 25,
-    backgroundColor: 'rgba(0,0,0,0.5)',
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
+
+  priceContainer: {
+    height: 25, 
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
   },
+  
   gemIcon: {
-    width: 20,
-    height: 20,
-    marginRight: 5,
+    width: 25,
+    height: 25,
+    resizeMode: "contain",
   },
-  itemText: {
-    color: '#FFFFFF',
-    fontWeight: '600',
+  
+  priceText: {
+    color: Colors.textPrimary,
+    fontWeight: "bold",
+    fontSize: 20,
   },
 });
 

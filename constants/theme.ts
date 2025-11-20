@@ -29,7 +29,7 @@ export const Colors = {
   taskLeisureIndigo: '#C5CAE9',
 
   // --- Neutral & UI Colors ---
-  white: '#FFFFFF',
+  white: '#FFF6F7',
   cardBackground: '#FFFFFF', 
   screenBackground: '#5A3E9B',
   placeholder: "#d3a48c", 
