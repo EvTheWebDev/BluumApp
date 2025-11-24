@@ -1,6 +1,7 @@
 import { MiniTaskCard } from "@/components/miniTaskCard";
 import { effectiveHeight, effectiveWidth } from "@/constants/dimensions";
 import { Colors } from "@/constants/theme";
+import { useAuth } from "@/context/AuthContext";
 import React, { useState } from "react";
 import {
   Image,
@@ -28,6 +29,7 @@ const characterData = {
 type characterKey = keyof typeof characterData;
 
 const HomeScreen = () => {
+  const { patient } = useAuth();
   const styles = createStyles(effectiveWidth, effectiveHeight);
   const [selectedChar, setSelectedChar] = useState<characterKey>("axolotl");
   const currentCharData = characterData[selectedChar];
@@ -78,21 +80,21 @@ const HomeScreen = () => {
           <View style={styles.infoCards}>
             <View style={[styles.infoCard, styles.statsCard]}>
               <View style={styles.profileHeader}>
-                <Text style={styles.username}>[Rowdy#7890]</Text>
+                <Text style={styles.username}>{patient?.username || 'Guest'}</Text>
                 <View style={styles.currencyContainer}>
                   <View style={styles.currencyCount}>
-                    <Image 
-                      source={require("../assets/icons/xpIcon.png")} 
+                    <Image
+                      source={require("../assets/icons/xpIcon.png")}
                       style={styles.currencyIcon}
                     />
-                    <Text style={styles.currencyText}>[800 XP]</Text>
+                    <Text style={styles.currencyText}>{patient?.experience || 0} XP</Text>
                   </View>
                   <View style={[styles.currencyCount, styles.gemCount]}>
                     <Image
                       source={require("../assets/icons/currencyIcon.png")}
                       style={styles.currencyIcon}
                     />
-                    <Text style={styles.currencyText}>[1000]</Text>
+                    <Text style={styles.currencyText}>{patient?.gems || 0}</Text>
                   </View>
                 </View>
               </View>
